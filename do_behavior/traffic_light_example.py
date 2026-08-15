@@ -20,7 +20,7 @@ class TrafficLight(DoBehaviorStateMachine):
         print("Green light active...")
         while not stop_event.is_set():
             print("  Safe to go!")
-            if stop_event.wait(timeout=1): 
+            if stop_event.wait(timeout=1):
                 break
 
     def do_yellow(self, stop_event: threading.Event) -> None:
@@ -37,15 +37,15 @@ class TrafficLight(DoBehaviorStateMachine):
 
 if __name__ == "__main__":
     sm = TrafficLight()
-    
+
     time.sleep(2)
-    sm.cycle() 
-    
+    sm.cycle()
+
     time.sleep(1)
     sm.cycle()
-    
+
     time.sleep(2)
     sm.cycle()
-    
+
     time.sleep(2)
     print("Done!")

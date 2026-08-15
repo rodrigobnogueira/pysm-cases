@@ -30,19 +30,19 @@ class DoBehaviorStateMachine(StateMachine):
 
     def on_enter_state(self, state: State) -> None:
         method_name = f"do_{state.id}"
-        
+
         if hasattr(self, method_name):
             stop_event = threading.Event()
             method = getattr(self, method_name)
-            
+
             thread = threading.Thread(
-                target=method, 
-                args=(stop_event,), 
+                target=method,
+                args=(stop_event,),
                 name=f"thread_do_{state.id}",
                 daemon=True
             )
             thread.start()
-            
+
             self._running_behaviors[state.id] = (thread, stop_event)
 
     def on_exit_state(self, state: State) -> None:
