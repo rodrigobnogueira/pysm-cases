@@ -52,7 +52,7 @@ pytest do_behavior/test_do_behavior.py -v
 ```bash
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-pip install python-statemachine pytest
+pip install -r requirements.txt
 ```
 
 ## Important Notes
@@ -60,3 +60,9 @@ pip install python-statemachine pytest
 - Initialize instance attributes **before** calling `super().__init__()`
 - The base class initializes `_running_behaviors` before triggering state activation
 - Use `stop_event.wait(timeout=...)` instead of `time.sleep()` for responsive shutdown
+- Leaving a state waits **at most** `join_timeout` seconds (default `2.0`) for the
+  behavior thread. A behavior that never checks its `stop_event` would otherwise
+  block the transition — and the caller — forever. When the budget runs out the
+  transition completes anyway and a `RuntimeWarning` names the state whose
+  behavior ignored the event; the thread is a daemon, so it cannot keep the
+  interpreter alive. Set `join_timeout` on your machine class to change the budget
