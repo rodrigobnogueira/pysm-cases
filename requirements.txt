@@ -1,0 +1,3 @@
+# Versions the examples and tests in this repository are verified against.
+python-statemachine==3.2.1
+pytest==9.1.1
